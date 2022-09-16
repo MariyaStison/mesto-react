@@ -30,14 +30,14 @@ function Main(props) {
       <section className="profile">
         <div className="profile__content">
           <img src={userAvatar} alt="Аватарка" className="profile__avatar" />
-          <button type="button" className="btn btn_type_edit-avatar" aria-label="Обновить аватар" onClick={props.onEditAvatar}></button>
+          <button type="button" className="btn btn_type_edit-avatar" aria-label="Обновить аватар" onClick={props.onEditAvatar} />
           <div className="profile__info">
             <h1 className="profile__title">{userName}</h1>
-            <button type="button" className="btn btn_type_edit" aria-label="Редактировать профиль" onClick={props.onEditProfile}></button>
+            <button type="button" className="btn btn_type_edit" aria-label="Редактировать профиль" onClick={props.onEditProfile} />
             <p className="profile__subtitle">{userDescription}</p>
           </div>
         </div>
-        <button type="button" className="btn btn_type_add" aria-label="Добавить" onClick={props.onAddPlace}></button>       
+        <button type="button" className="btn btn_type_add" aria-label="Добавить" onClick={props.onAddPlace} />       
       </section> 
       <section>
         <ul className="elemets">
