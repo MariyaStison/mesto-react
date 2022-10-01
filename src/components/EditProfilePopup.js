@@ -35,6 +35,7 @@ return (
           name="edit"
           title="Редактировать профиль"
           isOpen={props.isOpen}
+          isLoading={props.isLoading}
           onClose={props.onClose}
           onSubmit={handleSubmit}>  
             <input

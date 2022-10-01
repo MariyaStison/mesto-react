@@ -16,7 +16,17 @@ function PopupWithForm(props) {
             noValidate
             onSubmit={props.onSubmit}>
             {props.children}
-            <input type="submit" value="Сохранить" className="btn btn_type_submit" />
+            {props.isLoading ? (
+              <input
+              type="submit"
+              value="Сохранение..."
+              className="btn btn_type_submit" />
+            ) : (
+              <input
+              type="submit"
+              value="Сохранить"
+              className="btn btn_type_submit" />
+            )}
           </form>
         </div>
       </div>
