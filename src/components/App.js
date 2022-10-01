@@ -4,13 +4,13 @@ import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import avatarPath from '../images/profile__avatar.jpg';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import DeleteConfirmAvatar from './DeleteConfirmPopUp';
 
 function App() {
   
@@ -21,7 +21,9 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({ name: 'Жак-Ив Кусто', about: 'Исследователь морей', avatar: avatarPath, id : '' });
   const [isLoading, setIsLoading] = React.useState(false);
-
+  const [isConfirmPopUpOpen, setConfirmPopUpOpen] = React.useState(false);
+  const [selectedCardToDelete, setSelectedCardToDelete] = React.useState(null);
+ 
   React.useEffect(() => {
       api.getUserData()
         .then((userData) => {
@@ -55,14 +57,16 @@ function App() {
   }
 
   function handleCardClick(item) {
-    setSelectedCard(item)
+    setSelectedCard(item);
   }
 
   function closeAllPopups () {
     isEditAvatarPopupOpen && setIsEditAvatarPopupOpen(false);
     isEditProfilePopupOpen && setIsEditProfilePopupOpen(false);
     isAddPlacePopupOpen && setIsAddPlacePopupOpen(false);
-    (selectedCard != null) && setSelectedCard(null);          
+    isConfirmPopUpOpen && setConfirmPopUpOpen(false);
+    (selectedCard != null) && setSelectedCard(null);  
+    (selectedCardToDelete != null) && setSelectedCardToDelete(null);  
   }
   
   function handleUpdateUser ({name, about}) {
@@ -72,12 +76,12 @@ function App() {
       about})
       .then((res) => {
         setCurrentUser(res);
-        closeAllPopups ();
       })
       .catch((err) => {
         console.log(`Произошла ошибка при сохранении данных пользователя: ` + err);
        })
       .finally(() => {
+        closeAllPopups();
         setIsLoading(false);
       })
   }
@@ -87,14 +91,13 @@ function App() {
     api.patchAvatar(link)
       .then((avatar) => {
         setCurrentUser(avatar);
-        closeAllPopups();
-
       })
       .catch((err) => {
         console.log(`Произошла ошибка при сохранении аватара пользователя: ` + err);
        })
       .finally(() => {
-        setIsLoading(false);
+        closeAllPopups();
+        setIsLoading(false);;
       })
   }
 
@@ -110,14 +113,9 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id)
-      .then(() => {
-        setCards((state) => state.filter((c) => c._id !== card._id))
-      })
-      .catch((err) => {
-        console.log(`Произошла ошибка при удалении карточки: ` + err);
-      })
-  }
+    setConfirmPopUpOpen(true);
+    setSelectedCardToDelete(card);
+ }
 
   function handleAddPlaceSubmit(newCard) {
     setIsLoading(true);
@@ -127,14 +125,29 @@ function App() {
     })
       .then((res) => {
         setCards([res, ...cards]);
-        closeAllPopups();
       })
       .catch((err) => {
         console.log(`Произошла ошибка при добавлении карточки: ` + err);
       })
       .finally(() => {
+        closeAllPopups();
         setIsLoading(false);
       })
+  }
+
+  function handleComfirmDelete() {
+    setIsLoading(true);
+    api.deleteCard(selectedCardToDelete._id)
+    .then(() => {
+      setCards((state) => state.filter((c) => c._id !== selectedCardToDelete._id))
+    })
+    .catch((err) => {
+      console.log(`Произошла ошибка при удалении карточки: ` + err);
+    })
+    .finally(() => {
+      setIsLoading(false);
+      closeAllPopups();
+    })
   }
 
   return (
@@ -157,8 +170,8 @@ function App() {
         
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} isLoading={isLoading}/> 
 
-        <PopupWithForm name="confirm" title="Вы уверенны?" />
-
+        <DeleteConfirmAvatar card={selectedCardToDelete} isOpen={isConfirmPopUpOpen} onClose={closeAllPopups} onConfirm={handleComfirmDelete} isLoading={isLoading}/>
+       
         <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
     </div>
     </CurrentUserContext.Provider>    

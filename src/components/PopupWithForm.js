@@ -19,12 +19,12 @@ function PopupWithForm(props) {
             {props.isLoading ? (
               <input
               type="submit"
-              value="Сохранение..."
+              value={props.submitLoadingText}
               className="btn btn_type_submit" />
             ) : (
               <input
               type="submit"
-              value="Сохранить"
+              value={props.submitText}
               className="btn btn_type_submit" />
             )}
           </form>
@@ -32,6 +32,5 @@ function PopupWithForm(props) {
       </div>
     )  
   }
-
 
 export default PopupWithForm;

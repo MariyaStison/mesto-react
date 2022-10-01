@@ -9,16 +9,16 @@ const [name, setName] = React.useState(currentUser.name);
 const [description, setDescription] = React.useState(currentUser.about);
 
 React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
+  setName(currentUser.name);
+  setDescription(currentUser.about);
   }, [currentUser]);
 
 function handleChangeName(e) {
-    setName(e.target.value);
+  setName(e.target.value);
 }
 
 function handleChangeDescription(e) {
-    setDescription(e.target.value);
+  setDescription(e.target.value);
 }
 
 function handleSubmit(e) {
@@ -34,6 +34,8 @@ return (
 <PopupWithForm
           name="edit"
           title="Редактировать профиль"
+          submitText="Сохранить"
+          submitLoadingText="Сохранение..."
           isOpen={props.isOpen}
           isLoading={props.isLoading}
           onClose={props.onClose}
