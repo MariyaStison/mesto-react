@@ -4,9 +4,17 @@ function PopupWithForm(props) {
     return (
       <div className={className}>
         <div className="popup__container">
-          <button type="button" className="btn btn_type_close" aria-label="Закрыть" onClick={props.onClose} />
+          <button
+            type="button"
+            className="btn btn_type_close"
+            aria-label="Закрыть"
+            onClick={props.onClose} />
           <h2 className="popup__title">{props.title}</h2>
-          <form name={props.name} className="popup__form" noValidate>
+          <form
+            name={props.name}
+            className="popup__form"
+            noValidate
+            onSubmit={props.onSubmit}>
             {props.children}
             <input type="submit" value="Сохранить" className="btn btn_type_submit" />
           </form>

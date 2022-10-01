@@ -87,28 +87,28 @@ class Api {
               return this._getResponseData(res);
             })
     }
+   
 
-    //Метод для постановки лайка
-    putLike(card_id) {
+    //Метод для илайка и дизлайка
+    changeLikeCardStatus(card_id, isLiked) {
+      if (!isLiked) {
+      return fetch(`${this._baseUrl}/cards/${card_id}/likes`, {
+          method: 'PUT',    
+          headers: this._headers,
+          })
+          .then(res => {
+            return this._getResponseData(res);
+          })
+      } else {
         return fetch(`${this._baseUrl}/cards/${card_id}/likes`, {
-            method: 'PUT',    
-            headers: this._headers,
-            })
-            .then(res => {
-              return this._getResponseData(res);
-            })
-    }
-
-    //Метод для удаления лайка
-    deleteLike(card_id) {
-        return fetch(`${this._baseUrl}/cards/${card_id}/likes`, {
-            method: 'DELETE',    
-            headers: this._headers,
-            })
-            .then(res => {
-              return this._getResponseData(res);
-            })
-    }
+          method: 'DELETE',    
+          headers: this._headers,
+          })
+          .then(res => {
+            return this._getResponseData(res);
+          })
+      }  
+  }
 }
 
 const api = new Api({
