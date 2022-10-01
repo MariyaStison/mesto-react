@@ -1,36 +1,38 @@
-function PopupWithForm(props) {
-    const className = `popup popup_type_${props.name} ${props.isOpen && 'popup_opened'}`;
-    
-    return (
-      <div className={className}>
-        <div className="popup__container">
-          <button
-            type="button"
-            className="btn btn_type_close"
-            aria-label="Закрыть"
-            onClick={props.onClose} />
-          <h2 className="popup__title">{props.title}</h2>
-          <form
-            name={props.name}
-            className="popup__form"
-            noValidate
-            onSubmit={props.onSubmit}>
-            {props.children}
-            {props.isLoading ? (
-              <input
-              type="submit"
-              value={props.submitLoadingText}
-              className="btn btn_type_submit" />
-            ) : (
-              <input
-              type="submit"
-              value={props.submitText}
-              className="btn btn_type_submit" />
-            )}
-          </form>
-        </div>
+function PopupWithForm({
+  name,
+  title,
+  submitText,
+  submitLoadingText,
+  isOpen,
+  isLoading,
+  onClose,
+  onSubmit,
+  children
+}) {
+  const className = `popup popup_type_${name} ${isOpen && 'popup_opened'}`;
+
+  return (
+    <div className={className}>
+      <div className="popup__container">
+        <button
+          type="button"
+          className="btn btn_type_close"
+          aria-label="Закрыть"
+          onClick={onClose} />
+        <h2 className="popup__title">{title}</h2>
+        <form
+          name={name}
+          className="popup__form"
+          onSubmit={onSubmit}>
+          {children}
+          <input
+            type="submit"
+            value={isLoading ? submitLoadingText : submitText}
+            className="btn btn_type_submit" />
+        </form>
       </div>
-    )  
-  }
+    </div>
+  )
+}
 
 export default PopupWithForm;

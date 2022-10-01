@@ -1,9 +1,9 @@
 function Footer() {
-    return (
-      <footer>
-        <p className="footer">&copy; 2022. Мария Стисон</p>
-      </footer>
-    )
+  return (
+    <footer>
+      <p className="footer">&copy; {new Date().getFullYear()}. Мария Стисон</p>
+    </footer>
+  )
 }
 
 export default Footer;
